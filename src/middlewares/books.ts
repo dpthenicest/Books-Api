@@ -98,6 +98,10 @@ export const getBooks = async (request: Request, response: Response) => {
 
 // Get a Book by Id Middleware
 export const getBookById = async (request: Request<{ id: string }>, response: Response) => {
+  if (!request.params) {
+    return response.status(400).json({ error: "Missing book ID in request parameters" });
+  }
+
   const { id } = request.params;
 
   if (!id) {
@@ -155,8 +159,12 @@ export const updateBookById = async (request: Request<{ id: string }, {}, BookIt
 
 // Delete a Book Middleware
 export const deleteBookById = async (request: Request<{ id: string }>, response: Response) => {
+  if (!request.params) {
+    return response.status(400).json({ error: "Missing book ID in request parameters" });
+  }
+
   const { id } = request.params;
-  
+
   if (!id) {
     return response.status(400).json({ error: "Missing book ID in request parameters" });
   }
@@ -175,5 +183,6 @@ export const deleteBookById = async (request: Request<{ id: string }>, response:
   } catch (error) {
     return response.status(500).json({ error: "Error deleting book" });
   }
-}
+};
+
 
